@@ -29,10 +29,13 @@ namespace EnhancePoE.Model
         public static void ReloadItemfilter()
         {
             // store current clipboard
-            string oldClipboard = Clipboard.GetText();
+            //string oldClipboard = Clipboard.GetText();
+
+            // Old method would randomly send old clipboard instead of the /itemfilter command, so now I store an empty string
+            Clipboard.SetDataObject("");
 
             string chatCommand = BuildChatCommand();
-            if(chatCommand is null)
+            if (chatCommand is null)
             {
                 return;
             }
@@ -40,7 +43,7 @@ namespace EnhancePoE.Model
             Clipboard.SetDataObject(BuildChatCommand());
 
             var poeWindow = FindWindow(null, "Path of Exile");
-            if(poeWindow == IntPtr.Zero)
+            if (poeWindow == IntPtr.Zero)
             {
                 UserWarning.WarnUser("Could not find Window! Please make sure Path of Exile is running.", "Window not found");
                 return;
@@ -54,7 +57,7 @@ namespace EnhancePoE.Model
             System.Windows.Forms.SendKeys.SendWait("{ENTER}");
 
             // restore clipboard
-            Clipboard.SetDataObject(oldClipboard);
+            //Clipboard.SetDataObject(oldClipboard);
 
         }
 
@@ -63,7 +66,7 @@ namespace EnhancePoE.Model
 
             string filterName = GetFilterName().Trim();
             Trace.WriteLine("filtername", filterName);
-            if(String.IsNullOrEmpty(filterName))
+            if (String.IsNullOrEmpty(filterName))
             {
                 UserWarning.WarnUser("No filter found. Please set your filter in settings", "No filter found");
                 return null;
